@@ -131,7 +131,6 @@ function drawHeart(canvas) {
     ctxHeart.stroke();
     const gradient = ctxHeart.createLinearGradient(0, 0, 200, 200);
     for (let i = 0.1; i < 0.99; i += 0.02) {
-      console.log(i);
       gradient.addColorStop(i, "transparent");
       gradient.addColorStop(i, "gray");
       gradient.addColorStop(i + 2e-3, "gray");
@@ -179,6 +178,9 @@ function addListItem(task) {
   item.append(label);
   item.append(closeSpan);
   list?.append(item);
+  if (task.completed) {
+    checkbox.closest("li")?.classList.add("done");
+  }
   checkbox.addEventListener("change", () => {
     task.completed = checkbox.checked;
     checkbox.closest("li")?.classList.toggle("done");
