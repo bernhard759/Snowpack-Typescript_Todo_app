@@ -1,29 +1,23 @@
+/* build/dist/style.css */
 body {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-family:
+    Arial,
+    "Helvetica Neue",
+    Helvetica,
+    sans-serif;
 }
-
 body.paper {
-  background-image: linear-gradient(
-      90deg,
-      transparent 3rem,
-      rgba(72, 209, 204, 0.2) 3rem,
-      rgba(72, 209, 204, 0.2) 3.1rem,
-      transparent 3.1rem
-    ),
-    linear-gradient(rgba(0, 0, 0, 0.05) 0.08rem, transparent 0.08rem);
+  background-image: linear-gradient(90deg, transparent 3rem, rgba(72, 209, 204, 0.2) 3rem, rgba(72, 209, 204, 0.2) 3.1rem, transparent 3.1rem), linear-gradient(rgba(0, 0, 0, 0.05) 0.08rem, transparent 0.08rem);
   background-size: 100% 1rem;
   min-height: 100vh;
 }
-
 main {
   margin: 0 5rem;
   position: relative;
 }
-
 button {
   min-width: 80px;
 }
-
 .todo-input {
   margin: 0 auto;
   background-color: #e8e8e8;
@@ -31,21 +25,17 @@ button {
   padding: 1rem;
   margin-bottom: 2rem;
 }
-
 .input-group {
   display: flex;
   align-items: baseline;
   justify-content: flex-start;
   gap: 1rem;
 }
-
 ul {
   margin: 0;
   padding: 0;
   z-index: 99;
 }
-
-/* Todo list items */
 ul li {
   list-style-type: none;
   background-color: khaki;
@@ -54,68 +44,53 @@ ul li {
   display: flex;
   justify-content: space-between;
 }
-
-/* Done todo */
 ul li.done {
   background-color: lightgreen;
 }
-
-input[type="checkbox"] {
+input[type=checkbox] {
   accent-color: slategray;
 }
-
 ul li label {
   padding: 0.25rem 0.5rem;
   z-index: 2;
 }
-
 ul li span {
   padding: 0.25rem 0.5rem;
   opacity: 0;
 }
-
 ul li:hover span {
   background-color: rgb(198, 190, 119);
   opacity: 0.8;
 }
-
 ul li.done:hover span {
   background-color: rgb(121, 198, 121);
   opacity: 0.8;
 }
-
 ul li span i.fa {
   color: darkred;
 }
-
 div.drawings {
   position: relative;
 }
-
 .drawings canvas {
   position: absolute;
 }
-
 canvas.smiley {
   top: 15rem;
   left: 5rem;
 }
-
 canvas.text {
   top: 28rem;
   left: 55rem;
 }
-
 canvas.bubble {
   top: 12rem;
   left: 35rem;
 }
-
 canvas.stickman {
   top: 16rem;
   left: 20rem;
 }
-
 canvas.heart {
   top: 9rem;
   left: 55rem;
