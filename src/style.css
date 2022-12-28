@@ -30,6 +30,7 @@ button {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   padding: 1rem;
   margin-bottom: 2rem;
+  min-width: 340px;
 }
 
 .input-group {
@@ -42,7 +43,10 @@ button {
 ul {
   margin: 0;
   padding: 0;
-  z-index: 99;
+  z-index: 9;
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 1rem;
 }
 
 /* Todo list items */
@@ -53,6 +57,10 @@ ul li {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: space-between;
+  max-width: 25vw;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+  aspect-ratio: 2;
 }
 
 /* Done todo */
@@ -72,6 +80,8 @@ ul li label {
 ul li span {
   padding: 0.25rem 0.5rem;
   opacity: 0;
+  top:0;
+  height: 28px;
 }
 
 ul li:hover span {
