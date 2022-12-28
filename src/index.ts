@@ -67,11 +67,13 @@ function addListItem(task: Task) {
   item.append(label);
   item.append(closeSpan);
   list?.append(item);
+  /* Add done class id completed */
+  if (task.completed) { checkbox.closest("li")?.classList.add("done") }
 
   /* Checkbox Eventlistener */
   checkbox.addEventListener("change", () => {
     task.completed = checkbox.checked; // mark as completed
-    checkbox.closest("li")?.classList.toggle("done") // toggle done class
+    checkbox.closest("li")?.classList.toggle("done"); // toggle done class
     saveTasks(tasks); // save to local storage
     checkbox.closest("li")?.classList.contains("done") ?
       console.log("marked task ", task.title, " as completed") :
