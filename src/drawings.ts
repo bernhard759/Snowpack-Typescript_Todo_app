@@ -1,3 +1,6 @@
+/* Task type */
+type Task = { id: string, title: string, completed: boolean, createdAt: Date };
+
 /** Draw a smiley */
 export function drawSmiley(canvas: HTMLCanvasElement) {
   const ctxSmiley = canvas.getContext("2d");
@@ -46,7 +49,7 @@ export function drawText(canvas: HTMLCanvasElement) {
 }
 
 /** Draw a stick man */
-export function drawStickMan(canvas: HTMLCanvasElement) {
+export function drawStickMan(canvas: HTMLCanvasElement, todos: Task[]) {
   const ctxStickMan = canvas.getContext("2d");
   if (ctxStickMan) {
     /* Style */
@@ -54,34 +57,52 @@ export function drawStickMan(canvas: HTMLCanvasElement) {
     ctxStickMan.fillStyle = "rgba(0, 0, 0, 0.3)";
     /* Head */
     ctxStickMan.beginPath();
-    ctxStickMan.arc(200, 50, 40, 0, Math.PI * 2, true);
+    ctxStickMan.arc(100, 80, 40, 0, Math.PI * 2, true);
     ctxStickMan.stroke();
     ctxStickMan.beginPath();
-    ctxStickMan.arc(200, 60, 20, 0, Math.PI, false);
+    ctxStickMan.arc(100, 90, 20, 0, Math.PI, false);
     ctxStickMan.stroke();
     ctxStickMan.beginPath();
-    ctxStickMan.arc(190, 50, 3, 0, Math.PI * 2, true);
-    ctxStickMan.arc(210, 50, 3, 0, Math.PI * 2, true);
+    ctxStickMan.arc(90, 80, 3, 0, Math.PI * 2, true);
+    ctxStickMan.arc(110, 80, 3, 0, Math.PI * 2, true);
     ctxStickMan.fill();
     /* Body */
     ctxStickMan.beginPath();
-    ctxStickMan.moveTo(200, 90);
-    ctxStickMan.lineTo(200, 180);
+    ctxStickMan.moveTo(100, 120);
+    ctxStickMan.lineTo(100, 190);
     ctxStickMan.stroke();
     /* Arms */
     ctxStickMan.beginPath();
-    ctxStickMan.moveTo(200, 100);
-    ctxStickMan.lineTo(150, 130);
-    ctxStickMan.moveTo(200, 100);
-    ctxStickMan.lineTo(250, 130);
+    ctxStickMan.moveTo(100, 130);
+    ctxStickMan.lineTo(50, 160);
+    ctxStickMan.moveTo(100, 130);
+    ctxStickMan.lineTo(150, 160);
     ctxStickMan.stroke();
     /* Legs */
     ctxStickMan.beginPath();
-    ctxStickMan.moveTo(200, 180);
-    ctxStickMan.lineTo(150, 280);
-    ctxStickMan.moveTo(200, 180);
-    ctxStickMan.lineTo(250, 280);
+    ctxStickMan.moveTo(100, 190);
+    ctxStickMan.lineTo(70, 250);
+    ctxStickMan.moveTo(100, 190);
+    ctxStickMan.lineTo(130, 250);
     ctxStickMan.stroke();
+    /* Speech bubble */
+    ctxStickMan.beginPath();
+    ctxStickMan.moveTo(195, 5);
+    ctxStickMan.quadraticCurveTo(145, 5, 145, 42.5);
+    ctxStickMan.quadraticCurveTo(145, 80, 170, 80);
+    ctxStickMan.quadraticCurveTo(170, 100, 150, 105);
+    ctxStickMan.quadraticCurveTo(180, 100, 185, 80);
+    ctxStickMan.quadraticCurveTo(245, 80, 245, 42.5);
+    ctxStickMan.quadraticCurveTo(245, 5, 195, 5);
+    ctxStickMan.stroke();
+    ctxStickMan.fillStyle = "rgba(0, 0, 0, 0.3)";
+    ctxStickMan.font = "16px cursive";
+    const displayText = todos.length == 0 ? "Nothing \nto do" : "you have\n" + todos.length + " todo(s)";
+    const lines = displayText.split('\n');
+    for (let i = 0; i<lines.length; i++) {
+      ctxStickMan.fillText(lines[i], 155, 40 + (i*20) );
+    }
+
   }
 }
 

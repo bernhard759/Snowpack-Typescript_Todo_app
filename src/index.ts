@@ -12,10 +12,10 @@ const addBtn = document.querySelector<HTMLButtonElement>("div.input-group button
 const input = document.querySelector<HTMLInputElement>("#new-task-title");
 
 /* Task array */
-const tasks: Task[] = loadTasks()
+const tasks: Task[] = loadTasks();
 
 /* Render tasks to the page */
-tasks.forEach(addListItem)
+tasks.forEach(addListItem);
 
 
 /* Add Eventlistener to button */
@@ -53,10 +53,24 @@ function addListItem(task: Task) {
 
   /* Create HTML Elements */
   const item = document.createElement("li");
+  const labelDiv = document.createElement("div");
+  labelDiv.classList.add("todo-label-div");
   const label = document.createElement("label");
   const checkbox = document.createElement("input");
   const closeSpan = document.createElement("span");
+  closeSpan.classList.add("close");
   const closeIcon = document.createElement("i");
+  const dateSpan = document.createElement("span");
+  dateSpan.classList.add("todo-date");
+  /* Format timestamp */
+  dateSpan.textContent = Intl.DateTimeFormat(undefined, {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hourCycle: 'h23'
+  }).format(new Date(task.createdAt));
   /* Change attributes */
   checkbox.type = "checkbox";
   checkbox.checked = task.completed;
@@ -64,8 +78,10 @@ function addListItem(task: Task) {
   /* Append to the DOM */
   closeSpan.append(closeIcon);
   label.append(checkbox, task.title);
-  item.append(label);
+  labelDiv.append(label)
+  item.append(labelDiv);
   item.append(closeSpan);
+  item.append(dateSpan);
   list?.append(item);
   /* Add done class id completed */
   if (task.completed) { checkbox.closest("li")?.classList.add("done") }
@@ -79,7 +95,11 @@ function addListItem(task: Task) {
       console.log("marked task ", task.title, " as completed") :
       console.log("marked task ", task.title, " as todo");
     console.log("tasks ", tasks);
-  })
+  });
+
+  /* Stickman Canvas */
+  const canvasStickMan = document.querySelector<HTMLCanvasElement>("canvas.stickman");
+  const ctx = canvasStickMan?.getContext("2d");
 
   /* Close Span Eventlistener */
   closeSpan.addEventListener("click", () => {
@@ -89,7 +109,15 @@ function addListItem(task: Task) {
     saveTasks(tasks); // save to local storage
     console.log("removed task ", thisTask.title);
     console.log("tasks ", tasks);
-  })
+    /* Canvas redraw */
+    ctx?.clearRect(0, 0, 250, 250);
+    if (canvasStickMan) drawStickMan(canvasStickMan, tasks);
+
+  });
+
+  /* Canvas redraw */
+  ctx?.clearRect(0, 0, 250, 250);
+  if (canvasStickMan) drawStickMan(canvasStickMan, tasks);
 
 }
 
@@ -113,6 +141,6 @@ if (canvasBubble) drawBubble(canvasBubble);
 const canvasText = document.querySelector<HTMLCanvasElement>("canvas.text");
 if (canvasText) drawText(canvasText);
 const canvasStickMan = document.querySelector<HTMLCanvasElement>("canvas.stickman");
-if (canvasStickMan) drawStickMan(canvasStickMan);
+if (canvasStickMan) drawStickMan(canvasStickMan, tasks);
 const canvasHeart = document.querySelector<HTMLCanvasElement>("canvas.heart");
 if (canvasHeart) drawHeart(canvasHeart);
