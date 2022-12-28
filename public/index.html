@@ -1,23 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="dist/index.js" type="module"></script>
   <title>Document</title>
-  <style>
-    #list {
-      list-style: none;
-      padding: 0;
-    }
-  </style>
+  <script src="dist/index.js" type="module"></script>
+  <!-- Blaze UI -->
+  <link rel="stylesheet" href="https://unpkg.com/@blaze/css@x.x.x/dist/blaze/blaze.css">
+  <!-- Font Awesome 4 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
 </head>
-<body>
-  <ul id="list"></ul>
-  <form id="new-task-form">
-    <input title="input" type="text" id="new-task-title">
-    <button type="submit">Add</button>
-  </form>
+
+<body class="paper">
+
+  <!-- HTML Canvas Drawings -->
+  <div class="drawings">
+    <canvas class="smiley" role="presentation" width="250" height="250"></canvas>
+    <canvas class="text" role="presentation" width="250" height="50"></canvas>
+    <canvas class="bubble" role="presentation" width="250" height="250"></canvas>
+    <canvas class="stickman" role="presentation" width="250" height="250"></canvas>
+    <canvas class="heart" role="presentation" width="250" height="250"></canvas>
+  </div>
+
+  <main>
+    <!-- Todo Input -->
+    <section class="todo-input">
+      <h1 class="c-heading u-super">My Todo List</h1>
+      <!-- Input -->
+      <div class="input-group">
+        <input id="new-task-title" class="c-field" placeholder="Type in here..." type="text" />
+        <button type="button" class="c-button c-button--info">Add</button>
+      </div>
+    </section>
+    <!-- Todo List -->
+    <section class="todo-list">
+      <!-- List -->
+      <ul id="list"></ul>
+    </section>
+
+  </main>
+
+
+
+
 </body>
+
 </html>
