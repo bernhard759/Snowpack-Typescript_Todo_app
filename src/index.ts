@@ -1,7 +1,6 @@
 /* Import */
 import { v4 as uuidV4 } from "uuid"
 import { drawSmiley, drawBubble, drawText, drawStickMan, drawHeart } from "./drawings";
-import './style.css';
 
 
 /* Task type */
