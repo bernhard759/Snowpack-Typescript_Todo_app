@@ -83,37 +83,53 @@ function drawText(canvas) {
     ctxText.fillText("Hello world", 10, 50);
   }
 }
-function drawStickMan(canvas) {
+function drawStickMan(canvas, todos) {
   const ctxStickMan = canvas.getContext("2d");
   if (ctxStickMan) {
     ctxStickMan.strokeStyle = "rgba(0, 0, 0, 0.3)";
     ctxStickMan.fillStyle = "rgba(0, 0, 0, 0.3)";
     ctxStickMan.beginPath();
-    ctxStickMan.arc(200, 50, 40, 0, Math.PI * 2, true);
+    ctxStickMan.arc(100, 80, 40, 0, Math.PI * 2, true);
     ctxStickMan.stroke();
     ctxStickMan.beginPath();
-    ctxStickMan.arc(200, 60, 20, 0, Math.PI, false);
+    ctxStickMan.arc(100, 90, 20, 0, Math.PI, false);
     ctxStickMan.stroke();
     ctxStickMan.beginPath();
-    ctxStickMan.arc(190, 50, 3, 0, Math.PI * 2, true);
-    ctxStickMan.arc(210, 50, 3, 0, Math.PI * 2, true);
+    ctxStickMan.arc(90, 80, 3, 0, Math.PI * 2, true);
+    ctxStickMan.arc(110, 80, 3, 0, Math.PI * 2, true);
     ctxStickMan.fill();
     ctxStickMan.beginPath();
-    ctxStickMan.moveTo(200, 90);
-    ctxStickMan.lineTo(200, 180);
+    ctxStickMan.moveTo(100, 120);
+    ctxStickMan.lineTo(100, 190);
     ctxStickMan.stroke();
     ctxStickMan.beginPath();
-    ctxStickMan.moveTo(200, 100);
-    ctxStickMan.lineTo(150, 130);
-    ctxStickMan.moveTo(200, 100);
-    ctxStickMan.lineTo(250, 130);
+    ctxStickMan.moveTo(100, 130);
+    ctxStickMan.lineTo(50, 160);
+    ctxStickMan.moveTo(100, 130);
+    ctxStickMan.lineTo(150, 160);
     ctxStickMan.stroke();
     ctxStickMan.beginPath();
-    ctxStickMan.moveTo(200, 180);
-    ctxStickMan.lineTo(150, 280);
-    ctxStickMan.moveTo(200, 180);
-    ctxStickMan.lineTo(250, 280);
+    ctxStickMan.moveTo(100, 190);
+    ctxStickMan.lineTo(70, 250);
+    ctxStickMan.moveTo(100, 190);
+    ctxStickMan.lineTo(130, 250);
     ctxStickMan.stroke();
+    ctxStickMan.beginPath();
+    ctxStickMan.moveTo(195, 5);
+    ctxStickMan.quadraticCurveTo(145, 5, 145, 42.5);
+    ctxStickMan.quadraticCurveTo(145, 80, 170, 80);
+    ctxStickMan.quadraticCurveTo(170, 100, 150, 105);
+    ctxStickMan.quadraticCurveTo(180, 100, 185, 80);
+    ctxStickMan.quadraticCurveTo(245, 80, 245, 42.5);
+    ctxStickMan.quadraticCurveTo(245, 5, 195, 5);
+    ctxStickMan.stroke();
+    ctxStickMan.fillStyle = "rgba(0, 0, 0, 0.3)";
+    ctxStickMan.font = "16px cursive";
+    const displayText = todos.length == 0 ? "Nothing \nto do" : "you have\n" + todos.length + " todo(s)";
+    const lines = displayText.split("\n");
+    for (let i = 0; i < lines.length; i++) {
+      ctxStickMan.fillText(lines[i], 155, 40 + i * 20);
+    }
   }
 }
 function drawHeart(canvas) {
@@ -166,17 +182,32 @@ addBtn?.addEventListener("click", (e) => {
 });
 function addListItem(task) {
   const item = document.createElement("li");
+  const labelDiv = document.createElement("div");
+  labelDiv.classList.add("todo-label-div");
   const label = document.createElement("label");
   const checkbox = document.createElement("input");
   const closeSpan = document.createElement("span");
+  closeSpan.classList.add("close");
   const closeIcon = document.createElement("i");
+  const dateSpan = document.createElement("span");
+  dateSpan.classList.add("todo-date");
+  dateSpan.textContent = Intl.DateTimeFormat(void 0, {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hourCycle: "h23"
+  }).format(new Date(task.createdAt));
   checkbox.type = "checkbox";
   checkbox.checked = task.completed;
   closeIcon.classList.add("fa", "fa-times");
   closeSpan.append(closeIcon);
   label.append(checkbox, task.title);
-  item.append(label);
+  labelDiv.append(label);
+  item.append(labelDiv);
   item.append(closeSpan);
+  item.append(dateSpan);
   list?.append(item);
   if (task.completed) {
     checkbox.closest("li")?.classList.add("done");
@@ -188,6 +219,8 @@ function addListItem(task) {
     checkbox.closest("li")?.classList.contains("done") ? console.log("marked task ", task.title, " as completed") : console.log("marked task ", task.title, " as todo");
     console.log("tasks ", tasks);
   });
+  const canvasStickMan2 = document.querySelector("canvas.stickman");
+  const ctx = canvasStickMan2?.getContext("2d");
   closeSpan.addEventListener("click", () => {
     closeSpan.closest("li")?.remove();
     const thisTask = tasks.filter((x) => x.id == task.id)[0];
@@ -195,7 +228,13 @@ function addListItem(task) {
     saveTasks(tasks);
     console.log("removed task ", thisTask.title);
     console.log("tasks ", tasks);
+    ctx?.clearRect(0, 0, 250, 250);
+    if (canvasStickMan2)
+      drawStickMan(canvasStickMan2, tasks);
   });
+  ctx?.clearRect(0, 0, 250, 250);
+  if (canvasStickMan2)
+    drawStickMan(canvasStickMan2, tasks);
 }
 function saveTasks(tasks2) {
   localStorage.setItem("TASKS", JSON.stringify(tasks2));
@@ -217,7 +256,7 @@ if (canvasText)
   drawText(canvasText);
 var canvasStickMan = document.querySelector("canvas.stickman");
 if (canvasStickMan)
-  drawStickMan(canvasStickMan);
+  drawStickMan(canvasStickMan, tasks);
 var canvasHeart = document.querySelector("canvas.heart");
 if (canvasHeart)
   drawHeart(canvasHeart);
