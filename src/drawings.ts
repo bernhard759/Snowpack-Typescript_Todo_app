@@ -102,7 +102,6 @@ export function drawHeart(canvas: HTMLCanvasElement) {
     /* Gradient */
     const gradient = ctxHeart.createLinearGradient(0, 0, 200, 200);
     for (let i = 0.1; i < 0.99; i += 0.02) {
-      console.log(i)
       gradient.addColorStop(i, "transparent");
       gradient.addColorStop(i, "gray");
       gradient.addColorStop(i + 0.002, "gray");
