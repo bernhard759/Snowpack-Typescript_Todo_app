@@ -1,10 +1,8 @@
 /* Import */
 import { v4 as uuidV4 } from "uuid"
 import { drawSmiley, drawBubble, drawText, drawStickMan, drawHeart } from "./drawings";
+import type { Task } from "./tasktype";
 
-
-/* Task type */
-type Task = { id: string, title: string, completed: boolean, createdAt: Date };
 
 /* HTML ELements */
 const list = document.querySelector<HTMLUListElement>("#list");
@@ -86,6 +84,10 @@ function addListItem(task: Task) {
   /* Add done class id completed */
   if (task.completed) { checkbox.closest("li")?.classList.add("done") }
 
+  /* Stickman Canvas */
+  const canvasStickMan = document.querySelector<HTMLCanvasElement>("canvas.stickman");
+  const ctx = canvasStickMan?.getContext("2d");
+
   /* Checkbox Eventlistener */
   checkbox.addEventListener("change", () => {
     task.completed = checkbox.checked; // mark as completed
@@ -95,11 +97,10 @@ function addListItem(task: Task) {
       console.log("marked task ", task.title, " as completed") :
       console.log("marked task ", task.title, " as todo");
     console.log("tasks ", tasks);
+    /* Canvas redraw */
+    ctx?.clearRect(0, 0, 250, 250);
+    if (canvasStickMan) drawStickMan(canvasStickMan, tasks);
   });
-
-  /* Stickman Canvas */
-  const canvasStickMan = document.querySelector<HTMLCanvasElement>("canvas.stickman");
-  const ctx = canvasStickMan?.getContext("2d");
 
   /* Close Span Eventlistener */
   closeSpan.addEventListener("click", () => {
@@ -121,10 +122,12 @@ function addListItem(task: Task) {
 
 }
 
+
 /** Save stringified tasks array to local storage */
 function saveTasks(tasks: Task[]) {
   localStorage.setItem("TASKS", JSON.stringify(tasks))
 }
+
 
 /** Return parsed tasks array from local storage */
 function loadTasks(): Task[] {
@@ -132,6 +135,7 @@ function loadTasks(): Task[] {
   if (taskJSON == null) return []
   return JSON.parse(taskJSON)
 }
+
 
 /* Canvas Drawings */
 const canvasSmiley = document.querySelector<HTMLCanvasElement>("canvas.smiley");
