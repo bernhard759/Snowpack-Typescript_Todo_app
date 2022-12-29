@@ -111,11 +111,11 @@ canvas.smiley {
   left: 5vw;
 }
 canvas.text {
-  top: 28rem;
-  left: 55vw;
+  top: 30rem;
+  left: 70vw;
 }
 canvas.stickman {
-  top: 18rem;
+  top: 25rem;
   left: 25%;
 }
 canvas.heart {

@@ -94,10 +94,30 @@ function drawStickMan(canvas, todos) {
     ctxStickMan.beginPath();
     ctxStickMan.arc(100, 90, 20, 0, Math.PI, false);
     ctxStickMan.stroke();
-    ctxStickMan.beginPath();
-    ctxStickMan.arc(90, 80, 3, 0, Math.PI * 2, true);
-    ctxStickMan.arc(110, 80, 3, 0, Math.PI * 2, true);
-    ctxStickMan.fill();
+    if (todos.filter((x) => x.completed == false).length == 0) {
+      ctxStickMan.beginPath();
+      ctxStickMan.arc(89, 70, 8, 0, Math.PI * 2, true);
+      ctxStickMan.arc(109, 70, 8, 0, Math.PI * 2, true);
+      ctxStickMan.fillStyle = "rgba(0, 0, 0, 0.4)";
+      ctxStickMan.fill();
+      ctxStickMan.beginPath();
+      ctxStickMan.moveTo(65, 60);
+      ctxStickMan.lineTo(82, 70);
+      ctxStickMan.stroke();
+      ctxStickMan.beginPath();
+      ctxStickMan.moveTo(96, 70);
+      ctxStickMan.lineTo(102, 70);
+      ctxStickMan.stroke();
+      ctxStickMan.beginPath();
+      ctxStickMan.moveTo(116, 70);
+      ctxStickMan.lineTo(134, 60);
+      ctxStickMan.stroke();
+    } else {
+      ctxStickMan.beginPath();
+      ctxStickMan.arc(90, 70, 3, 0, Math.PI * 2, true);
+      ctxStickMan.arc(110, 70, 3, 0, Math.PI * 2, true);
+      ctxStickMan.fill();
+    }
     ctxStickMan.beginPath();
     ctxStickMan.moveTo(100, 120);
     ctxStickMan.lineTo(100, 190);
@@ -125,7 +145,7 @@ function drawStickMan(canvas, todos) {
     ctxStickMan.stroke();
     ctxStickMan.fillStyle = "rgba(0, 0, 0, 0.3)";
     ctxStickMan.font = "16px cursive";
-    const displayText = todos.length == 0 ? "Nothing \nto do" : "you have\n" + todos.length + " todo(s)";
+    const displayText = todos.filter((x) => x.completed == false).length == 0 ? "Nothing \nto do" : "you have\n" + todos.filter((x) => x.completed == false).length + (todos.filter((x) => x.completed == false).length == 1 ? " todo" : " todos");
     const lines = displayText.split("\n");
     for (let i = 0; i < lines.length; i++) {
       ctxStickMan.fillText(lines[i], 155, 40 + i * 20);
@@ -212,15 +232,18 @@ function addListItem(task) {
   if (task.completed) {
     checkbox.closest("li")?.classList.add("done");
   }
+  const canvasStickMan2 = document.querySelector("canvas.stickman");
+  const ctx = canvasStickMan2?.getContext("2d");
   checkbox.addEventListener("change", () => {
     task.completed = checkbox.checked;
     checkbox.closest("li")?.classList.toggle("done");
     saveTasks(tasks);
     checkbox.closest("li")?.classList.contains("done") ? console.log("marked task ", task.title, " as completed") : console.log("marked task ", task.title, " as todo");
     console.log("tasks ", tasks);
+    ctx?.clearRect(0, 0, 250, 250);
+    if (canvasStickMan2)
+      drawStickMan(canvasStickMan2, tasks);
   });
-  const canvasStickMan2 = document.querySelector("canvas.stickman");
-  const ctx = canvasStickMan2?.getContext("2d");
   closeSpan.addEventListener("click", () => {
     closeSpan.closest("li")?.remove();
     const thisTask = tasks.filter((x) => x.id == task.id)[0];
