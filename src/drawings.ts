@@ -1,5 +1,5 @@
-/* Task type */
-type Task = { id: string, title: string, completed: boolean, createdAt: Date };
+/* Import */
+import type { Task } from "./tasktype";
 
 /** Draw a smiley */
 export function drawSmiley(canvas: HTMLCanvasElement) {
@@ -62,10 +62,31 @@ export function drawStickMan(canvas: HTMLCanvasElement, todos: Task[]) {
     ctxStickMan.beginPath();
     ctxStickMan.arc(100, 90, 20, 0, Math.PI, false);
     ctxStickMan.stroke();
-    ctxStickMan.beginPath();
-    ctxStickMan.arc(90, 80, 3, 0, Math.PI * 2, true);
-    ctxStickMan.arc(110, 80, 3, 0, Math.PI * 2, true);
-    ctxStickMan.fill();
+    /* Sunglasses if nothing todo */
+    if (todos.filter(x => x.completed == false).length == 0) {
+      ctxStickMan.beginPath();
+      ctxStickMan.arc(89, 70, 8, 0, Math.PI * 2, true);
+      ctxStickMan.arc(109, 70, 8, 0, Math.PI * 2, true);
+      ctxStickMan.fillStyle = "rgba(0, 0, 0, 0.4)";
+      ctxStickMan.fill();
+      ctxStickMan.beginPath();
+      ctxStickMan.moveTo(65, 60);
+      ctxStickMan.lineTo(82, 70);
+      ctxStickMan.stroke();
+      ctxStickMan.beginPath();
+      ctxStickMan.moveTo(96, 70);
+      ctxStickMan.lineTo(102, 70);
+      ctxStickMan.stroke();
+      ctxStickMan.beginPath();
+      ctxStickMan.moveTo(116, 70);
+      ctxStickMan.lineTo(134, 60);
+      ctxStickMan.stroke();
+    } else {
+      ctxStickMan.beginPath();
+      ctxStickMan.arc(90, 70, 3, 0, Math.PI * 2, true);
+      ctxStickMan.arc(110, 70, 3, 0, Math.PI * 2, true);
+      ctxStickMan.fill();
+    }
     /* Body */
     ctxStickMan.beginPath();
     ctxStickMan.moveTo(100, 120);
@@ -97,10 +118,11 @@ export function drawStickMan(canvas: HTMLCanvasElement, todos: Task[]) {
     ctxStickMan.stroke();
     ctxStickMan.fillStyle = "rgba(0, 0, 0, 0.3)";
     ctxStickMan.font = "16px cursive";
-    const displayText = todos.length == 0 ? "Nothing \nto do" : "you have\n" + todos.length + " todo(s)";
+    const displayText = todos.filter(x => x.completed == false).length == 0 ? "Nothing \nto do" : "you have\n" + 
+    todos.filter(x => x.completed == false).length + ((todos.filter(x => x.completed == false).length==1) ? " todo" : " todos");
     const lines = displayText.split('\n');
-    for (let i = 0; i<lines.length; i++) {
-      ctxStickMan.fillText(lines[i], 155, 40 + (i*20) );
+    for (let i = 0; i < lines.length; i++) {
+      ctxStickMan.fillText(lines[i], 155, 40 + (i * 20));
     }
 
   }
